@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float speed;
-    public  Animator anim;
+    public Animator anim;
     public SpriteRenderer spriteRenderer;
+    public GameObject weapon;
 
     private Rigidbody2D rb;
     private bool isMovingLeft;
@@ -14,16 +15,24 @@ public class player : MonoBehaviour
     private Vector2 moveAmount;
     void Start()
     {
-        // anim = GetComponent<Animator>();
+
         rb = GetComponent<Rigidbody2D>();
-        // spriteRenderer = GetComponent<SpriteRenderer>();
         isMovingLeft = false;
     }
 
     void Update()
     {
+        //  WEPAON ROTATION
+        // Vector3 mousePos = Input.mousePosition;
+        // mousePos.z = -10;
+        // Vector3 objectPosition = Camera.main.WorldToScreenPoint(weapon.transform.position);
+        // mousePos.x = mousePos.x - objectPosition.x;
+        // mousePos.y = mousePos.y - objectPosition.y;
+        // float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        // float restrictedAngle = Mathf.Clamp(angle, -270, 90);
+        // weapon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, restrictedAngle));
 
-        handleInput();
+        moveHandler();
     }
 
     void FixedUpdate()
@@ -31,7 +40,7 @@ public class player : MonoBehaviour
         rb.MovePosition(rb.position + moveAmount * Time.fixedDeltaTime);
     }
 
-    void handleInput()
+    void moveHandler()
     {
 
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -84,14 +93,12 @@ public class player : MonoBehaviour
     }
 
     void shouldFlipX(bool isMovingLeft)
-    {
+    {     
+        spriteRenderer.flipX = false;
+
         if (isMovingLeft)
         {
             spriteRenderer.flipX = true;
-        }
-        else
-        {
-            spriteRenderer.flipX = false;
         }
     }
 }
